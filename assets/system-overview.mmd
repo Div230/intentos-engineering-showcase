@@ -1,0 +1,32 @@
+flowchart TB
+  subgraph interfaces["Interaction"]
+    T["Text interface"]
+    V["Vexon voice interface"]
+  end
+  subgraph coordination["IntentOS coordination"]
+    C["Durable request lifecycle"]
+    S["Semantic interpretation"]
+    M["Scoped memory and context"]
+    P["Planning and task coordination"]
+    A["Authorization and verified execution"]
+  end
+  I["Local inference services"]
+  R["Optional remote inference
+Integration validation incomplete"]
+  W["Workstation integrations
+Terminal, browser, files, windows"]
+  T --> C
+  V --> C
+  C --> S
+  S --> P
+  M --> P
+  P --> A
+  P <--> I
+  P -.-> R
+  A <--> W
+  A --> C
+  C --> M
+  classDef core fill:#eaf2ff,stroke:#345b8c,color:#162c49
+  classDef optional fill:#fff8e6,stroke:#997327,color:#503e17
+  class C,S,M,P,A core
+  class R optional

@@ -1,0 +1,23 @@
+flowchart TB
+  Q["Current request and authorized context"] --> C["Context assembly"]
+  subgraph evidence["Evidence sources"]
+    M["Persistent scoped memory"]
+    F["Indexed workspace evidence"]
+    O["Current authorized observations"]
+  end
+  M --> C
+  F --> C
+  O --> C
+  C --> B["Bounded context for reasoning"]
+  B --> L["Local model execution"]
+  B -.-> R["Optional remote model execution
+Requires configured outbound consent"]
+  L --> P["Candidate plan or response"]
+  R -.-> P
+  P --> A["Local authorization and verification"]
+  A --> D["Durable outcomes"]
+  D -->|Eligible evidence| M
+  classDef core fill:#eaf2ff,stroke:#345b8c,color:#162c49
+  classDef optional fill:#fff8e6,stroke:#997327,color:#503e17
+  class C,B,L,P,A,D core
+  class R optional

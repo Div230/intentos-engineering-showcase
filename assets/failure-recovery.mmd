@@ -1,0 +1,17 @@
+flowchart TB
+  E["Authorized execution"] --> O{"Observed outcome"}
+  O -->|Succeeded| V["Verify required effects"]
+  O -->|Failed or interrupted| S["Preserve durable outcome and partial progress"]
+  O -->|Cancellation| C["Stop pending work and reconcile owned resources"]
+  V -->|Evidence sufficient| D["Report verified completion"]
+  V -->|Evidence missing| S
+  C --> S
+  S --> R["Inspect current state and ownership"]
+  R --> Q{"Safe continuation supported?"}
+  Q -->|Yes| A["Revalidate authority before continuation"]
+  Q -->|No| B["Report blocked or partial result"]
+  A --> E
+  classDef core fill:#eaf2ff,stroke:#345b8c,color:#162c49
+  classDef decision fill:#fff8e6,stroke:#997327,color:#503e17
+  class E,V,S,C,D,R,A,B core
+  class O,Q decision

@@ -1,0 +1,23 @@
+flowchart TB
+  U["User request"] --> D["Persist request and conversation state"]
+  D --> S["Interpret request"]
+  S --> Q{"More context needed?"}
+  Q -->|Yes| M["Resolve scoped evidence"]
+  Q -->|No| P["Select actions or plan dependent work"]
+  M --> P
+  P --> C{"Target and intent resolved?"}
+  C -->|No| H["Clarify or report missing evidence"]
+  C -->|Yes| A["Validate current execution authority"]
+  A --> B{"Interactive approval needed?"}
+  B -->|Yes| W["Persist waiting state and request approval"]
+  W -->|Approved; revalidate| A
+  W -->|Denied| N["Report action not executed"]
+  B -->|No| E["Execute authorized work"]
+  E --> V["Verify observed results"]
+  V --> R["Persist outcome and respond"]
+  H --> R
+  N --> R
+  classDef core fill:#eaf2ff,stroke:#345b8c,color:#162c49
+  classDef decision fill:#fff8e6,stroke:#997327,color:#503e17
+  class D,S,M,P,A,E,V,R core
+  class Q,C,B decision
